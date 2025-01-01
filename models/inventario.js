@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Inventario.belongsTo(models.Producto, {
         foreignKey: 'productoId',
-        as: 'producto'
+        as: 'producto',
+        onDelete: 'CASCADE'
       });
     }
   }
@@ -26,7 +27,11 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    fecha: DataTypes.DATE,
+    fecha: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: () => new Date()
+    },
     cantidad: DataTypes.INTEGER
   }, {
     sequelize,

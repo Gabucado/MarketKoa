@@ -18,14 +18,18 @@ module.exports = (sequelize, DataTypes) => {
         as: 'productos'
       });
       Venta.hasMany(models.VentaProducto, {
-        foreignKey: 'id',
+        foreignKey: 'ventaId',
         as: 'detalleProductos'
       });
 
     }
   }
   Venta.init({
-    fecha: DataTypes.DATE,
+    fecha: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: () => new Date()
+    },
   }, {
     sequelize,
     modelName: 'Venta',

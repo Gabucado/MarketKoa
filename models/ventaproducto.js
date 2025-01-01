@@ -14,10 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       VentaProducto.belongsTo(models.Venta, {
         foreignKey: 'id',
         as: 'venta',
+        onDelete: 'CASCADE',
       });
       VentaProducto.belongsTo(models.Producto, {
         foreignKey: 'id',
         as: 'producto',
+        onDelete: 'CASCADE',
       });
     }
   }
@@ -52,5 +54,21 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'VentaProducto',
   });
+
+  VentaProducto.addHook('beforeCreate', async (ventaProducto, options) => {
+    const { Inventario } = sequelize.models;
+    const lastInventario = await Inventario.findOne({
+      where: { productoId: ventaProducto.productoId },
+      order: [['fecha', 'DESC']],
+    });
+
+    const quantity = lastInventario.cantidad > ventaProducto.cantidad ? ventaProducto.cantidad : lastInventario.cantidad;
+
+    await Inventario.create({
+      productoId: ventaProducto.productoId,
+      cantidad: lastInventario.cantidad - quantity,
+      fecha: new Date(),
+    });
+  })
   return VentaProducto;
 };
