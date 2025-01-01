@@ -1,8 +1,12 @@
 const Router = require("koa-router");
-// const { getEvents, addEvent } = require("./controllers/events.controllers.js");
+const productosRouter = require('./routes/productos.js');
+const ventasRouter = require('./routes/ventas.js');
+const inventariosRouter = require('./routes/inventarios.js');
+
 const router = new Router();
 
-// router.get("/events_list", getEvents);
-// router.post("/add_event", addEvent);
+router.use(productosRouter.routes());
+router.use(ventasRouter.routes());
+router.use(inventariosRouter.routes());
 
 module.exports = router;
