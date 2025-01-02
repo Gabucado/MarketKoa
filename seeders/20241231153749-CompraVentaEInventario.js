@@ -56,7 +56,6 @@ module.exports = {
 
 
       const ventaIds = ventasInsertadas.map(venta => venta.id);
-      console.log(ventaIds);
 
       // Inventario inicial
       await queryInterface.bulkInsert(
