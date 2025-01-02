@@ -21,7 +21,17 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'ventaId',
         as: 'detalleProductos'
       });
+    }
 
+    async addProductos(productos) {
+      const VentaProducto = sequelize.models.VentaProducto;
+      const ventaProductos = productos.map(producto => ({
+        ventaId: this.id,
+        productoId: producto.productoId,
+        cantidad: producto.cantidad,
+        precio: producto.precio
+      }));
+      await VentaProducto.bulkCreate(ventaProductos);
     }
   }
   Venta.init({
