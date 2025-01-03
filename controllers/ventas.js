@@ -15,7 +15,6 @@ const getById = async (ctx) => {
 const create = async (ctx) => {
   const { compras } = ctx.request.body;
   const venta = await Venta.create({ fecha: new Date() });
-  console.log(venta)
   await venta.addProductos(compras);
   const ventaTotal = await Venta.findByPk(venta.id, { include: ['detalleProductos'] });
   ctx.body = ventaTotal;
