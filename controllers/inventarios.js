@@ -2,7 +2,7 @@ const { Inventario } = require('../models');
 const error404 = require('./helpers/error404.js');
 
 const getAll = async (ctx) => {
-  ctx.body = await Inventario.findAll();
+  ctx.body = await Inventario.findAll({ include: ['producto'] });
 };
 
 const getById = async (ctx) => {

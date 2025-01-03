@@ -2,7 +2,7 @@ const { Venta, VentaProducto } = require('../models');
 const error404 = require('./helpers/error404');
 
 const getAll = async (ctx) => {
-  ctx.body = await Venta.findAll();
+  ctx.body = await Venta.findAll({ include: ['detalleProductos'] });
 };
 
 const getById = async (ctx) => {

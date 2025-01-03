@@ -90,9 +90,18 @@ module.exports = {
             updatedAt
           }], {});
 
+          if (newCantidad == 0)
+            await queryInterface.bulkInsert('Inventarios', [{
+              productoId,
+              fecha: new Date(venta[0].fecha.setDate(venta[0].fecha.getDate() + 1)),
+              cantidad: 100,
+              createdAt,
+              updatedAt
+            }]);
+
           await queryInterface.bulkInsert('VentaProductos',
             [{
-              ventaId, productoId, cantidad: newCantidad, precio, createdAt, updatedAt
+              ventaId, productoId, cantidad: newCantidad, precio: precio * newCantidad, createdAt, updatedAt
             }], {});
         }
 
